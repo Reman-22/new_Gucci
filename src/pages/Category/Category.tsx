@@ -217,7 +217,7 @@ export function Category() {
 
       {/* ───── Filter Drawer ───── */}
       <div 
-        className={`fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm transition-opacity duration-700 ease-in-out ${
+        className={`hidden md:block fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm transition-opacity duration-700 ease-in-out ${
           drawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setDrawerOpen(false)}
@@ -226,7 +226,7 @@ export function Category() {
       <div 
         role="dialog" 
         aria-label="Filter products"
-        className={`fixed inset-y-0 right-0 z-[80] w-full max-w-sm bg-white border-l border-[var(--color-rule)] shadow-2xl flex flex-col transform transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+        className={`hidden md:flex fixed inset-y-0 right-0 z-[80] w-full max-w-sm bg-white border-l border-[var(--color-rule)] shadow-2xl flex-col transform transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
           drawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
