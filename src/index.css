@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Cormorant Garamond", "Didot", "Bodoni MT", "Times New Roman", serif;
+
+  /* Semantic color tokens (Gucci-inspired: high contrast monochrome) */
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #1a1a1a;
+  --color-ink-muted: #6b6b6b;
+  --color-rule: #e5e5e5;
+  --color-surface: #ffffff;
+  --color-surface-raised: #fafafa;
+  --color-accent: #0000ee; /* link / focus accent per tokens */
+
+  /* Motion durations */
+  --duration-instant: 100ms;
+  --duration-fast: 500ms;
+  --duration-normal: 800ms;
+  --duration-slow: 1200ms;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    font-size: 13.33px;
+    line-height: 1.5;
+  }
+
+  /* Prevent horizontal overflow/site-wide horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Prevent text selection on headings and buttons for a clean app-like feel */
+  h1, h2, h3, h4, h5, h6 {
+    @apply select-none;
+  }
+  button, a {
+    @apply select-none cursor-pointer;
+  }
+
+  /* Global focus-visible ring — WCAG 2.2 AA */
+  :where(a, button, input, select, textarea, [tabindex]):focus {
+    outline: none;
+  }
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-surface);
+  }
+}
+
+/* Subtle reveal animation for hero */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rise-1 { animation: rise var(--duration-slow) cubic-bezier(.2,.7,.2,1) both; }
+.rise-2 { animation: rise var(--duration-slow) 120ms cubic-bezier(.2,.7,.2,1) both; }
+.rise-3 { animation: rise var(--duration-slow) 240ms cubic-bezier(.2,.7,.2,1) both; }
+
+/* Marquee */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-track { animation: marquee 40s linear infinite; }
