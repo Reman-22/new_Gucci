@@ -26,11 +26,15 @@ const DESCRIPTIONS: Record<string, string> = {
   Stories: "Essays, field notes, and maker portraits from our ateliers.",
 };
 
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+
 export function Category() {
   const { parentCategory } = useParams<{ parentCategory: string }>();
   const decodedCat = decodeURIComponent(parentCategory || "Women");
   const cat = PARENT_CATEGORIES.includes(decodedCat as any) ? decodedCat : "Women";
   const subCats = SUB_CATEGORIES[cat as keyof typeof SUB_CATEGORIES] ?? [];
+
+  useDocumentTitle(`${cat} Collection`);
 
   // Filters
   const [searchParams, setSearchParams] = useSearchParams();
@@ -217,7 +221,7 @@ export function Category() {
 
       {/* ───── Filter Drawer ───── */}
       <div 
-        className={`hidden md:block fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm transition-opacity duration-700 ease-in-out ${
+        className={`fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm transition-opacity duration-700 ease-in-out ${
           drawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setDrawerOpen(false)}
@@ -226,7 +230,7 @@ export function Category() {
       <div 
         role="dialog" 
         aria-label="Filter products"
-        className={`hidden md:flex fixed inset-y-0 right-0 z-[80] w-full max-w-sm bg-white border-l border-[var(--color-rule)] shadow-2xl flex-col transform transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
+        className={`fixed inset-y-0 right-0 z-[80] w-full max-w-sm bg-white border-l border-[var(--color-rule)] shadow-2xl flex flex-col transform transition-transform duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)] ${
           drawerOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >

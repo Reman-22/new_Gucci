@@ -3,9 +3,13 @@ import { useLocation } from "react-router-dom";
 
 type Tab = "login" | "orders" | "settings" | "address" | "wallet" | "saved" | "appointments";
 
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
+
 export function AccountPage() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<Tab>("login");
+
+  useDocumentTitle("My Account");
 
   // Read tab from navigation state if available
   useEffect(() => {

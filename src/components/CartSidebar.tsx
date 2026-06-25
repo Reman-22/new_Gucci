@@ -18,6 +18,7 @@ const currency = new Intl.NumberFormat("en-US", {
 });
 
 import { useModalBack } from "../hooks/useModalBack";
+import { Link } from "react-router-dom";
 
 export function CartSidebar(_props: Props) {
   const { state, dispatch, totalItems, totalPrice } = useCart();
@@ -167,12 +168,13 @@ export function CartSidebar(_props: Props) {
                 {currency.format(totalPrice)}
               </span>
             </div>
-            <button
+            <Link
+              to="/account"
               onClick={() => dispatch({ type: "CLOSE" })}
-              className="block w-full py-4 bg-[var(--color-ink)] text-white text-[12px] tracking-[0.22em] uppercase hover:bg-[var(--color-ink-soft)] transition-colors duration-[var(--duration-instant)]"
+              className="block w-full py-4 rounded-full text-center bg-[var(--color-ink)] text-white text-[12px] tracking-[0.22em] uppercase hover:bg-[var(--color-ink-soft)] transition-colors duration-[var(--duration-fast)] shadow-md"
             >
               Checkout
-            </button>
+            </Link>
           </div>
         )}
       </div>

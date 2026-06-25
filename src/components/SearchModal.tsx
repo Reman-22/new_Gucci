@@ -64,13 +64,13 @@ export function SearchModal({ onClose }: Props) {
       aria-label="Search"
     >
       {/* ───── Top Header ───── */}
-      <div className="flex items-center justify-between px-6 py-6 border-b border-transparent">
+        <div className="flex items-center justify-between px-6 py-6 border-b border-transparent">
         <div className="w-10" /> {/* Spacer for centering */}
         <Link to="/" onClick={onClose} className="font-serif text-[20px] md:text-[24px] tracking-[0.35em] text-[var(--color-ink)]">
           MAISON ARTÉ
         </Link>
-        <button onClick={onClose} className="p-2 text-[var(--color-ink)] hover:opacity-60 transition-opacity">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+        <button type="button" aria-label="Close Search" onClick={onClose} className="p-2 text-[var(--color-ink)] hover:opacity-60 transition-opacity">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
@@ -105,10 +105,10 @@ export function SearchModal({ onClose }: Props) {
       </div>
 
       {/* ───── Bottom Layout (Sidebar + Content) ───── */}
-      <div className="flex-1 max-w-7xl mx-auto w-full px-6 py-12 grid grid-cols-1 md:grid-cols-12 gap-16 overflow-y-auto">
+      <div className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 md:py-12 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 overflow-y-auto">
         
         {/* Left Sidebar */}
-        <div className="md:col-span-3 space-y-12">
+        <div className="md:col-span-3 space-y-8 md:space-y-12">
           <div>
             <h3 className="text-[11px] tracking-[0.22em] uppercase text-[var(--color-ink)] mb-6">New In</h3>
             <ul className="space-y-4">

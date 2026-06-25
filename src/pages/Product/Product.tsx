@@ -10,6 +10,9 @@ const currency = new Intl.NumberFormat("en-US", {
 
 import { motion, AnimatePresence } from "framer-motion";
 
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import type { PanInfo } from "framer-motion";
+
 export function Product() {
   const { productId } = useParams<{ productId: string }>();
   const product = PRODUCTS.find((p) => p.id === productId);
@@ -19,6 +22,8 @@ export function Product() {
   const [direction, setDirection] = useState(0);
   const { dispatch } = useCart();
   const { ref: mainImgRef, inView: mainInView } = useInView({ threshold: 0.1 });
+
+  useDocumentTitle(product ? product.name : "Product Not Found");
 
   useEffect(() => { setMainLoaded(false); }, [selectedImage, productId]);
 
@@ -33,7 +38,7 @@ export function Product() {
     });
   };
 
-  const handleDragEnd = (_e: any, { offset }: any) => {
+  const handleDragEnd = (_e: MouseEvent | TouchEvent | PointerEvent, { offset }: PanInfo) => {
     const swipe = offset.x;
     if (swipe < -50) paginate(1);
     else if (swipe > 50) paginate(-1);
@@ -59,7 +64,7 @@ export function Product() {
   }
 
   return (
-    <div className="bg-white overflow-x-hidden">
+    <div className="bg-white">
       {/* ───── Breadcrumb ───── */}
       <nav aria-label="Breadcrumb" className="px-4 md:px-6 pt-6 pb-2 text-[11px] tracking-[0.18em] uppercase text-[var(--color-ink-muted)]">
         <ol className="flex items-center gap-2 flex-wrap">
@@ -72,7 +77,7 @@ export function Product() {
       </nav>
 
       {/* ───── Main layout ───── */}
-      <div className="px-4 md:px-6 pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 max-w-[1100px] mx-auto">
+      <div className="px-4 md:px-6 pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16">
         {/* Gallery */}
         <div className="lg:col-span-7">
           <div ref={mainImgRef} className="group aspect-[4/5] w-full bg-[var(--color-surface-raised)] overflow-hidden mb-3 relative rounded-3xl touch-pan-y cursor-grab active:cursor-grabbing">
@@ -176,9 +181,12 @@ export function Product() {
             >
               Add to Bag
             </button>
-            <button className="flex-1 py-4 rounded-full border border-[var(--color-ink)] text-[var(--color-ink)] text-[12px] tracking-[0.22em] uppercase hover:bg-[var(--color-ink)] hover:text-white transition-colors duration-[var(--duration-fast)]">
+            <Link 
+              to="/services"
+              className="flex-1 py-4 rounded-full border border-[var(--color-ink)] text-[var(--color-ink)] text-[12px] tracking-[0.22em] uppercase hover:bg-[var(--color-ink)] hover:text-white transition-colors duration-[var(--duration-fast)] text-center block"
+            >
               Bespoke Inquiry
-            </button>
+            </Link>
           </div>
 
           {/* Details */}

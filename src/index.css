@@ -25,17 +25,17 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     font-family: var(--font-sans);
     color: var(--color-ink);
     background: var(--color-surface);
     font-size: 13.33px;
     line-height: 1.5;
-  }
-
-  /* Prevent horizontal overflow/site-wide horizontal scroll */
-  body {
-    overflow-x: hidden;
   }
 
   /* Prevent text selection on headings and buttons for a clean app-like feel */

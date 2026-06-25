@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 
 export function Footer() {
   const [email, setEmail] = useState("");
+  const [success, setSuccess] = useState(false);
 
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (email) {
-      alert("Thank you for subscribing to Omran updates.");
+      setSuccess(true);
       setEmail("");
+      setTimeout(() => setSuccess(false), 4000);
     }
   }
 
@@ -86,9 +88,15 @@ export function Footer() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="E-Mail" 
                   required
+                  aria-label="Email Address for Newsletter"
                   className="w-full bg-transparent border-b border-[#333333] py-2 text-[13px] placeholder:text-[#666666] text-[#e8dccb] focus:outline-none focus:border-[#e8dccb] transition-colors duration-500"
                 />
               </div>
+              {success && (
+                <p className="text-[#a99c8f] text-[11px] mb-2" role="status">
+                  Thank you for subscribing!
+                </p>
+              )}
               <p className="text-[10px] leading-[1.8] text-[#777777] tracking-wider mt-4">
                 By entering your email address below, you consent to receiving our newsletter with access to our latest collections, events and initiatives. More details on this are provided in our <Link to="/" className="underline underline-offset-2 hover:text-[#a99c8f] transition-colors">Privacy Policy</Link>.
               </p>

@@ -22,7 +22,7 @@ export function Hero() {
         </h1>
         <Link
           to="/category/Women"
-          className="mt-12 px-10 py-4 border border-white text-white text-[12px] tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-500 rounded-none"
+          className="mt-12 px-10 py-4 border border-white text-white text-[12px] tracking-[0.25em] uppercase hover:bg-white hover:text-black transition-colors duration-500 rounded-full"
         >
           Shop Now
         </Link>

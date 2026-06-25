@@ -27,7 +27,7 @@ export function MainLayout() {
   useModalBack(searchOpen, () => setSearchOpen(false), "search");
 
   return (
-    <div className="bg-white text-[var(--color-ink)] font-sans flex flex-col min-h-screen">
+    <div className="bg-white text-[var(--color-ink)] font-sans flex flex-col min-h-screen overflow-x-hidden">
       <ScrollToTop />
       <a
         href="#main"

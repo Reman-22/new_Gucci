@@ -78,13 +78,20 @@ function cartReducer(state: CartState, action: CartAction): CartState {
         ...state,
         items: state.items.filter((i) => i.product.id !== action.productId),
       };
-    case "UPDATE_QTY":
+    case "UPDATE_QTY": {
+      if (action.quantity <= 0) {
+        return {
+          ...state,
+          items: state.items.filter((i) => i.product.id !== action.productId),
+        };
+      }
       return {
         ...state,
         items: state.items.map((i) =>
           i.product.id === action.productId ? { ...i, quantity: action.quantity } : i
         ),
       };
+    }
     case "CLEAR":
       return { ...state, items: [] };
     case "TOGGLE":

@@ -60,8 +60,13 @@ export function Header({ onSearchClick }: Props) {
             <button
               onClick={() => setContactOpen(true)}
               className={`flex items-center gap-1.5 text-[11px] font-medium tracking-[0.22em] uppercase ${softTextColor} ${hoverTextColor} transition-colors duration-300`}
+              aria-label="Contact Us"
             >
-              Contact Us <span className="text-[14px] leading-none">+</span>
+              <span className="hidden md:inline">Contact Us <span className="text-[14px] leading-none">+</span></span>
+              {/* Mobile Icon */}
+              <svg className="md:hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
             </button>
           </div>
 
@@ -78,6 +83,7 @@ export function Header({ onSearchClick }: Props) {
             
             {/* Bag */}
             <button
+              type="button"
               onClick={() => dispatch({ type: "TOGGLE" })}
               className={`relative p-2 rounded-full ${hoverTextColor} ${softTextColor} transition-colors duration-300`}
               aria-label="Shopping bag"
@@ -95,7 +101,10 @@ export function Header({ onSearchClick }: Props) {
             {/* Account */}
             <div className="relative flex items-center">
               <button
+                type="button"
                 aria-label="Account"
+                aria-haspopup="menu"
+                aria-expanded={accountOpen}
                 onClick={() => setAccountOpen((v) => !v)}
                 onMouseEnter={() => setAccountOpen(true)}
                 className={`p-2 rounded-full ${hoverTextColor} ${softTextColor} transition-colors duration-300`}
@@ -132,6 +141,7 @@ export function Header({ onSearchClick }: Props) {
 
             {/* Search */}
             <button
+              type="button"
               onClick={onSearchClick}
               className={`p-2 rounded-full ${hoverTextColor} ${softTextColor} transition-colors duration-300`}
               aria-label="Search"
@@ -144,8 +154,10 @@ export function Header({ onSearchClick }: Props) {
 
             {/* Menu */}
             <button
+              type="button"
               onClick={() => setMenuOpen(true)}
               className={`flex items-center gap-2 p-2 rounded-full ${hoverTextColor} ${softTextColor} transition-colors duration-300`}
+              aria-label="Menu"
             >
               <span className="hidden md:inline text-[11px] font-medium tracking-[0.22em] uppercase">MENU</span>
               <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">

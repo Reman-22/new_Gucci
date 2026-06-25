@@ -79,9 +79,13 @@ const SERVICES_DETAIL = [
 
 type Tab = "store" | "services";
 
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
+
 export function ServicesPage() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState<Tab>("store");
+
+  useDocumentTitle(activeTab === "store" ? "Find a Store" : "Our Services");
 
   useEffect(() => {
     // Allows deep linking to a specific tab via React Router state
@@ -92,29 +96,6 @@ export function ServicesPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      
-      {/* ───── Top Navigation Tabs ───── */}
-      <div className="sticky top-[73px] z-30 bg-white/95 backdrop-blur-md border-b border-[var(--color-rule)] transition-all">
-        <div className="flex w-full">
-          <button
-            onClick={() => setActiveTab("store")}
-            className={`flex-1 py-4 text-[12px] font-medium tracking-[0.18em] uppercase transition-colors duration-300 border-b-2 ${
-              activeTab === "store" ? "border-[var(--color-ink)] text-[var(--color-ink)]" : "border-transparent text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]"
-            }`}
-          >
-            Find a Store
-          </button>
-          <button
-            onClick={() => setActiveTab("services")}
-            className={`flex-1 py-4 text-[12px] font-medium tracking-[0.18em] uppercase transition-colors duration-300 border-b-2 ${
-              activeTab === "services" ? "border-[var(--color-ink)] text-[var(--color-ink)]" : "border-transparent text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]"
-            }`}
-          >
-            Services
-          </button>
-        </div>
-      </div>
-
       <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-[cubic-bezier(0.2,0.8,0.2,1)]">
         {activeTab === "store" ? <StoreLocator /> : <ServicesContent />}
       </div>
@@ -124,6 +105,9 @@ export function ServicesPage() {
 
 /* ───── 1. Store Locator View ───── */
 function StoreLocator() {
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [distance, setDistance] = useState("any");
+
   return (
     <div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-10 md:py-16 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
       
@@ -153,14 +137,63 @@ function StoreLocator() {
         </button>
 
         {/* Filter Bar */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 relative">
           <h2 className="text-[11px] tracking-[0.15em] uppercase font-medium">3 Stores found</h2>
-          <button className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-[var(--color-ink)] border border-[var(--color-rule)] px-4 py-2 rounded-full hover:border-[var(--color-ink)] transition-all duration-300">
-            Filter
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setFilterOpen((v) => !v)}
+              className="flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-[var(--color-ink)] border border-[var(--color-rule)] px-4 py-2 rounded-full hover:border-[var(--color-ink)] transition-all duration-300"
+            >
+              Filter
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={`transition-transform ${filterOpen ? "rotate-180" : ""}`}>
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            
+            {/* Filter Dropdown */}
+            {filterOpen && (
+              <div className="absolute right-0 top-[calc(100%+8px)] w-[240px] bg-white border border-[var(--color-rule)] rounded-2xl shadow-xl z-40 animate-in fade-in slide-in-from-top-2 p-4">
+                <p className="text-[11px] tracking-[0.15em] uppercase font-medium mb-3 text-[var(--color-ink-muted)]">Distance</p>
+                <div className="space-y-2 mb-4">
+                  {["any", "< 5km", "< 10km", "< 25km"].map((dist) => (
+                    <label key={dist} className="flex items-center gap-2 text-[13px] cursor-pointer">
+                      <input 
+                        type="radio" 
+                        name="distance" 
+                        checked={distance === dist} 
+                        onChange={() => setDistance(dist)}
+                        className="accent-[var(--color-ink)]"
+                      />
+                      <span className="uppercase tracking-wider text-[11px]">{dist === "any" ? "Any Distance" : dist}</span>
+                    </label>
+                  ))}
+                </div>
+                
+                <p className="text-[11px] tracking-[0.15em] uppercase font-medium mb-3 text-[var(--color-ink-muted)] pt-3 border-t border-[var(--color-rule)]">Services</p>
+                <div className="space-y-2">
+                  <label className="flex items-center gap-2 text-[13px] cursor-pointer">
+                    <input type="checkbox" className="accent-[var(--color-ink)]" />
+                    <span className="uppercase tracking-wider text-[11px]">In-store Pickup</span>
+                  </label>
+                  <label className="flex items-center gap-2 text-[13px] cursor-pointer">
+                    <input type="checkbox" className="accent-[var(--color-ink)]" />
+                    <span className="uppercase tracking-wider text-[11px]">Repair Service</span>
+                  </label>
+                  <label className="flex items-center gap-2 text-[13px] cursor-pointer">
+                    <input type="checkbox" className="accent-[var(--color-ink)]" />
+                    <span className="uppercase tracking-wider text-[11px]">Personalization</span>
+                  </label>
+                </div>
+                
+                <button 
+                  onClick={() => setFilterOpen(false)}
+                  className="w-full mt-5 bg-[var(--color-ink)] text-white rounded-full py-2 text-[11px] tracking-[0.2em] uppercase hover:bg-black/80 transition-colors"
+                >
+                  Apply Filters
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Store Cards */}
@@ -211,7 +244,7 @@ function StoreLocator() {
         <div className="absolute inset-0 opacity-40 mix-blend-multiply pointer-events-none" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"%239C92AC\" fill-opacity=\"0.4\" fill-rule=\"evenodd\"%3E%3Ccircle cx=\"3\" cy=\"3\" r=\"3\"/%3E%3Ccircle cx=\"13\" cy=\"13\" r=\"3\"/%3E%3C/g%3E%3C/svg%3E')" }} />
         
         {/* Mock Map Image for realistic feel */}
-        <img src="https://images.pexels.com/photos/1544420/pexels-photo-1544420.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1200" alt="Map" className="w-full h-full object-cover opacity-50 grayscale" />
+        <img src="https://images.pexels.com/photos/1544420/pexels-photo-1544420.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=1200&w=1200" loading="lazy" alt="Map" className="w-full h-full object-cover opacity-50 grayscale" />
 
         {/* Expand Map Button */}
         <button className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[var(--color-ink)] text-white px-6 py-3 rounded-full flex items-center gap-3 text-[11px] tracking-[0.2em] uppercase font-medium shadow-2xl hover:scale-105 transition-transform duration-500">
